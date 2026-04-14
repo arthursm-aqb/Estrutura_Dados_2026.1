@@ -60,12 +60,17 @@ public class FilaArray implements Fila {
         if(this.isEmpty()) throw new EFilaVazia("A fila está vazia. Impossível de remover um elemento dela!");
 
         Object send = this.top.getElement();
-
-        no aux = this.top.getNext();
-        this.top.setNext(null);
-        this.top = aux;
-        tam--;
         
+        if(tam==1){
+            this.top = null;
+            this.end = this.top;
+        } else{
+            no aux = this.top.getNext();
+            this.top.setNext(null);
+            this.top = aux;
+        }
+
+        tam--;
         return send;
     }
     
