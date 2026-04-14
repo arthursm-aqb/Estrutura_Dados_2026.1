@@ -71,10 +71,27 @@ public class FilaArray implements Fila {
         
         if(this.isEmpty()) throw new EFilaVazia("A fila está vazia. Impossível remover um objeto dela");
 
-        Object aux = this.first();
+        Object send = this.first();
         this.first = (this.first+1) % this.capacidade;
         this.tam--;
-        return aux;
+
+        if(this.capacidade>1 && this.tam<=(this.capacidade/3)){
+            int newCapacity = capacidade/2;
+            Object[] newF = new Object[newCapacity];
+            
+            int aux = this.first;
+            for(int i = 0; i<this.size(); i++){
+                newF[i] = this.fila[aux];
+                aux = (aux+1) % this.capacidade;
+            }
+
+            this.capacidade = newCapacity;
+            this.fila = newF;
+            this.first = 0;
+            this.last = this.size();
+        }
+
+        return send;
         
     }
 
