@@ -34,8 +34,10 @@ public class vetorCircular implements vetor {
 
 
         if(rank<(this.size()/2)){
-            this.inicio = (this.inicio - 1 + this.capacidade) % this.capacidade;
-            for(int i = 0; i<rank; i++) circular[(this.inicio + i) % this.capacidade] = circular[(this.inicio + i + 1) % this.capacidade];
+
+            int novoInicio = (this.inicio - 1 + this.capacidade) % this.capacidade;
+            for(int i = 0; i<rank; i++) circular[(this.inicio + i - 1) % this.capacidade] = circular[(this.inicio + i ) % this.capacidade];
+            this.inicio = novoInicio;
         } else{
             for(int i = this.size(); i>rank; i--) this.circular[(this.inicio+i) % this.capacidade] = this.circular[(this.inicio + i - 1) % this.capacidade];
         }
@@ -43,6 +45,7 @@ public class vetorCircular implements vetor {
         circular[(this.inicio + rank) % this.capacidade] = o;
         this.tam++;
     }
+    
     public Object removeAtRank(int rank);
 
     public int size(){
