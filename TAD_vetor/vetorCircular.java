@@ -29,23 +29,33 @@ public class vetorCircular implements vetor {
     }
 
     public void insertAtRank(int rank, Object o){
-        if(rank < 0 || rank >= this.tam) throw new IndexOutOfBoundsException("Rank inválido!");
-        if(this.size()==this.capacidade) throw new RuntimeException("Vetor cheio");
+        if(rank < 0 || rank > this.tam) throw new IndexOutOfBoundsException("Rank inválido!");
+
+        if(this.size()==this.capacidade){
+            
+            Object novoVetor = new Object[capacidade*2];
+            for(int i = 0; i<this.size(); i++) novoVetor[i] = this.circular[(this.inicio+i+this.capacidade) % this.capacidade];
+
+            this.circular = novoVetor;
+            this.capacidade*=2;
+            this.inicio = 0;
+            novoVetor = null;
+        }
 
 
         if(rank<(this.size()/2)){
 
             int novoInicio = (this.inicio - 1 + this.capacidade) % this.capacidade;
-            for(int i = 0; i<rank; i++) circular[(this.inicio + i - 1) % this.capacidade] = circular[(this.inicio + i ) % this.capacidade];
+            for(int i = 0; i<rank; i++) circular[(this.inicio + i - 1 + this.capacidade) % this.capacidade] = circular[(this.inicio + i ) % this.capacidade];
             this.inicio = novoInicio;
         } else{
-            for(int i = this.size(); i>rank; i--) this.circular[(this.inicio+i) % this.capacidade] = this.circular[(this.inicio + i - 1) % this.capacidade];
+            for(int i = this.size(); i>rank; i--) this.circular[(this.inicio+i) % this.capacidade] = this.circular[(this.inicio + i - 1 + this.capacidade) % this.capacidade];
         }
 
         circular[(this.inicio + rank) % this.capacidade] = o;
         this.tam++;
     }
-    
+
     public Object removeAtRank(int rank);
 
     public int size(){
